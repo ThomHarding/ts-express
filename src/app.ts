@@ -1,5 +1,11 @@
 import express, {NextFunction, Request, Response} from 'express'
+import routes from './routes';
+import helmet from 'helmet';
+
 const app = express();
+
+app.use(helmet());
+//fun lil thing to protect the workings of your app from anyone who makes a request to it
 
 app.get("/", (req, res) => {
     return res.json({
@@ -47,16 +53,10 @@ app.get('api/books/:authorId/:bookId', [handleGetBookOne, handleGetBookTwo]);
 
 // app.use(express.urlencoded({extended:true}));
 
-app.post('api/data', (req: Request, res: Response) => {
-    console.log(req.body);
-    return res.sendStatus(200);
-});
-
-app.all("api/all", (req: Request, res: Response) => {
-    return res.sendStatus(200);
-});
 
 app.listen(3000, () => {
     console.log('listening at localhost 3000');
-
+    routes(app);
+    //there's a whole thing about making controller, service, model
+    //which is just app structure things and i think the pattern we already follow?
 });
